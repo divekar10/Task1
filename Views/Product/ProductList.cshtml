@@ -9,6 +9,10 @@
 
 <h2>Product List</h2>
 
+<p>
+    @Html.ActionLink("New Product", "AddProduct", "Product", null, new { @class = "btn btn-primary" })
+</p>
+
 @if(!Model.Any())
             {
 
@@ -20,6 +24,7 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
+        <th>Actions</th>
         <th>ProductID</th>
         <th>ProductName</th>
         <th>CatID</th>
@@ -29,6 +34,7 @@
     @foreach (var products in Model)
     {
 <tr>
+    <td>@Html.ActionLink("Edit", "Edit", new { id =  products.Id})</td>
     <td>@products.Id</td>
     <td>@products.ProductName</td>
     <td>@products.CategoryId</td>

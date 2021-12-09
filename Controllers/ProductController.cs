@@ -31,9 +31,41 @@ namespace Task1.Controllers
             {
                 Categories = ddl
             };
-            return View(viewModel);
+            return View("AddProduct",viewModel);
         }
 
+        [HttpPost]
+        public ActionResult Save(Product product)
+        {
+            if (product.Id == 0)
+            {
+                _context.Products.Add(product);
+            }
+            else
+            {
+                var productInDb = _context.Products.Single(c => c.Id == product.Id);
+
+                productInDb.ProductName = product.ProductName;
+                productInDb.CategoryId = product.CategoryId;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("ProductList", "Product");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var product = _context.Products.SingleOrDefault(c => c.Id == id);
+            if (product == null)
+                return HttpNotFound();
+
+            var viewModel = new AddProductViewModel
+            {
+                Product = product,
+                Categories = _context.Categories.ToList()
+            };
+
+            return View("AddProduct", viewModel);
+        }
 
         // GET: Product
         public ActionResult ProductList()
