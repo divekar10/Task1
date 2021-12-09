@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Task1.Models.Product>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Task1.Models.Product>
+@*@model IEnumerable<Task1.Models.Product>*@
 @*
     @model Task1.ViewModels.ProductListViewModel
 *@
@@ -48,7 +51,7 @@
 }
 
 
-
+@Html.PagedListPager(Model, page =>Url.Action("ProductList", new { page }))
 
 @*<ul>
 

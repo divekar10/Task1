@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using Task1.Models;
 using Task1.ViewModels;
+using PagedList;
+using PagedList.Mvc;
 
 namespace Task1.Controllers
 {
@@ -78,11 +80,11 @@ namespace Task1.Controllers
         }
 
         // GET: Product
-        public ActionResult ProductList()
+        public ActionResult ProductList(int? page)
         {
 
             var product = _context.Products.Include(c => c.Category).ToList();
-            return View(product);
+            return View(product.ToList().ToPagedList(page ?? 1, 10));
 
             //var product = new Product() { ProductName = "Mobile" };
             //var category = new List<Category>
