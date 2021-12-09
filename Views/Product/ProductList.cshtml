@@ -1,8 +1,50 @@
-﻿
+﻿@model IEnumerable<Task1.Models.Product>
+@*
+    @model Task1.ViewModels.ProductListViewModel
+*@
 @{
     ViewBag.Title = "ProductList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ProductList</h2>
+<h2>Product List</h2>
 
+@if(!Model.Any())
+            {
+
+
+<p>We dont have any products</p>
+            }
+            else
+            {
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+        <th>ProductID</th>
+        <th>ProductName</th>
+        <th>CatID</th>
+        <th>CatName</th>
+        </tr>
+    </thead>
+    @foreach (var products in Model)
+    {
+<tr>
+    <td>@products.Id</td>
+    <td>@products.ProductName</td>
+    <td>@products.CategoryId</td>
+    <td>@products.Category.CatName</td>
+</tr>
+    }
+</table>
+}
+
+
+
+
+@*<ul>
+
+    @foreach (var item in Model)
+    {
+        <li>@item.Category.CatName </li>
+    }
+</ul>*@
