@@ -67,6 +67,16 @@ namespace Task1.Controllers
             return View("AddProduct", viewModel);
         }
 
+
+        public ActionResult Delete(int id)
+        {
+            var pro = _context.Products.Find(id);
+            _context.Products.Remove(pro);
+            _context.SaveChanges();
+
+            return RedirectToAction("ProductList", "Product");
+        }
+
         // GET: Product
         public ActionResult ProductList()
         {

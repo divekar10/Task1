@@ -34,7 +34,10 @@
     @foreach (var products in Model)
     {
 <tr>
-    <td>@Html.ActionLink("Edit", "Edit", new { id =  products.Id})</td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = products.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Delete", "delete", new { id = products.Id }, new { @class = "btn btn-danger" })
+    </td>
     <td>@products.Id</td>
     <td>@products.ProductName</td>
     <td>@products.CategoryId</td>
