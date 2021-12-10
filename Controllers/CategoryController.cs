@@ -4,13 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Task1.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace Task1.Controllers
 {
     public class CategoryController : Controller
     {
 
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public CategoryController()
         {
             _context = new ApplicationDbContext();
@@ -21,10 +23,77 @@ namespace Task1.Controllers
             _context.Dispose();
         }
         // GET: Category
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var category = _context.Categories.ToList();
-            return View(category);
+            return View(category.ToList().ToPagedList(page ?? 1, 10));
         }
+
+        public ActionResult AddCat()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save(Category category)
+        {
+            if (category.Id == 0)
+            {
+                _context.Categories.Add(category);
+            }
+            else
+            {
+                var catInDb = _context.Categories.Single(c => c.Id == category.Id);
+
+                catInDb.CatName = category.CatName;
+               
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Category");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var cat = _context.Categories.SingleOrDefault(c => c.Id == id);
+            if (cat == null)
+                return HttpNotFound();
+
+            return View("AddCat");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var cat = _context.Categories.Find(id);
+            _context.Categories.Remove(cat);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Category");
+        }
+
+       
+        public ActionResult Active(int id, bool active = true)
+        {
+            Category act = _context.Categories.Create();
+            act.Id = id;
+            _context.Categories.Attach(act);
+            act.ActiveOrNot = active;
+            _context.SaveChanges();
+
+            return RedirectToAction("ProductList", "Product");
+        }
+
+        public ActionResult Deactive(int id, bool deactivate = false)
+        {
+
+            Category deact = _context.Categories.Create();
+            deact.Id = id;
+            _context.Categories.Attach(deact);
+            deact.ActiveOrNot = deactivate;
+            _context.SaveChanges();
+
+            return RedirectToAction("ProductList", "Product");
+
+        }
+
     }
 }

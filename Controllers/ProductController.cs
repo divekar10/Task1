@@ -14,7 +14,7 @@ namespace Task1.Controllers
     public class ProductController : Controller
     {
 
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public ProductController()
         {
             _context = new ApplicationDbContext();
@@ -37,8 +37,18 @@ namespace Task1.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Product product)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    var viewModel = new AddProductViewModel
+            //    {
+            //        Product = product,
+            //        Categories = _context.Categories.ToList()
+            //    };
+            //    return View("AddProduct", viewModel);
+            //}
             if (product.Id == 0)
             {
                 _context.Products.Add(product);
@@ -80,25 +90,12 @@ namespace Task1.Controllers
         }
 
         // GET: Product
-        public ActionResult ProductList(int? page)
+        public ActionResult ProductList(int? page, bool a = true)
         {
 
-            var product = _context.Products.Include(c => c.Category).ToList();
+            var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
             return View(product.ToList().ToPagedList(page ?? 1, 10));
 
-            //var product = new Product() { ProductName = "Mobile" };
-            //var category = new List<Category>
-            //{
-            //    new Category { CatName = "Electronic"},
-            //    new Category { CatName = "Farm"}
-            //};
-
-            //var viewModel = new ProductListViewModel
-            //{
-            //    Product = product,
-            //    Categories = category
-            //};
-            //return View(product);
         }
     }
 }
