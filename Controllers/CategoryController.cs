@@ -71,25 +71,24 @@ namespace Task1.Controllers
         }
 
        
-        public ActionResult Active(int id, bool active = true)
+        public ActionResult Active(Category category)
         {
-            Category act = _context.Categories.Create();
-            act.Id = id;
-            _context.Categories.Attach(act);
-            act.ActiveOrNot = active;
+            var act = _context.Categories.Single(c => c.Id == category.Id);
+            act.ActiveOrNot = true;
             _context.SaveChanges();
-
             return RedirectToAction("ProductList", "Product");
         }
 
-        public ActionResult Deactive(int id, bool deactivate = false)
+        public ActionResult Deactive(Category category)
         {
-
-            Category deact = _context.Categories.Create();
-            deact.Id = id;
-            _context.Categories.Attach(deact);
-            deact.ActiveOrNot = deactivate;
+            var deact = _context.Categories.Single(c => c.Id == category.Id);
+            deact.ActiveOrNot = false;
             _context.SaveChanges();
+            //Category deact = _context.Categories.Create();
+            //deact.Id = id;
+            //_context.Categories.Attach(deact);
+            //deact.ActiveOrNot = deactivate;
+            //_context.SaveChanges();
 
             return RedirectToAction("ProductList", "Product");
 
