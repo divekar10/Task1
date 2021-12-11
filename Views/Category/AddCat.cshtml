@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Add Category</h2>
+<h2 style="text-align: center">Add / Update Category</h2>
 
 <p>
     @Html.ActionLink("BAck To Category List", "Index", "Category", null, new { @class = "btn btn-primary" })
@@ -16,7 +16,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.CatName)
         @Html.TextBoxFor(m => m.CatName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.CatName);
+        @Html.ValidationMessageFor(m => m.CatName)
     </div>
    
     @Html.HiddenFor(m => m.Id)

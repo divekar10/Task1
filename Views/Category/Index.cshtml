@@ -44,8 +44,17 @@ else
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = category.Id }, new { @class = "btn btn-primary" })
                     @Html.ActionLink("Delete", "Delete", new { id = category.Id }, new { @class = "btn btn-danger" })
-                    @Html.ActionLink("Active", "Active", new { id = category.Id }, new { @class = "btn btn-danger" })
-                    @Html.ActionLink("Deactive", "Deactive", new { id = category.Id}, new { @class = "btn btn-danger" })
+
+
+                    @if (category.ActiveOrNot == false)
+                    {
+
+                        @Html.ActionLink("Activate", "Active", new { id = category.Id }, new { @class = "btn btn-success" })
+                    }
+                    @if(category.ActiveOrNot == true)
+                    {
+                        @Html.ActionLink("Deactivate", "Deactive", new { id = category.Id }, new { @class = "btn btn-warning" })
+                    }
                 </td>
                 <td>@category.Id</td>
                 <td>@category.CatName</td>
