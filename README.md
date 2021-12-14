@@ -1,4 +1,4 @@
-For accessing Admin privileges use:
+For accessing User privileges use:
 username: user@gmail.com
 password: User@123
 
