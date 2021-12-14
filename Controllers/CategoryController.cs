@@ -9,6 +9,7 @@ using PagedList.Mvc;
 
 namespace Task1.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
 
@@ -25,8 +26,15 @@ namespace Task1.Controllers
         // GET: Category
         public ActionResult Index(int? page)
         {
-            var category = _context.Categories.ToList();
-            return View(category.ToList().ToPagedList(page ?? 1, 10));
+            if (User.IsInRole("Admin")) 
+            { 
+                var category = _context.Categories.ToList();
+                return View("Index",category.ToList().ToPagedList(page ?? 1, 10));
+            }else
+            {
+                var category = _context.Categories.ToList();
+                return View("ReadOnly",category.ToList().ToPagedList(page ?? 1, 10));
+            }
         }
 
         public ActionResult AddCat()

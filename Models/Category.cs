@@ -11,6 +11,8 @@ namespace Task1.Models
     public class Category
     {
         public int Id { get; set; }
+
+        [DisplayName("Category Name")]
         public String CatName { get; set; }
 
         [DefaultValue(true)]

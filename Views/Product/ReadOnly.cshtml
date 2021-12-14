@@ -15,9 +15,9 @@
 
 @*@Html.ActionLink("New Product", "AddProduct", "Product", null, new { @class = "btn btn-primary" })
 
-@Html.ActionLink("Add Category", "AddCat", "Category", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Add Category", "AddCat", "Category", null, new { @class = "btn btn-primary" })
 
-@Html.ActionLink("See All Categories", "Index", "Category", null, new { @class = "btn btn-primary" })*@
+    @Html.ActionLink("See All Categories", "Index", "Category", null, new { @class = "btn btn-primary" })*@
 
 
 @if (!Model.Any())
@@ -31,7 +31,6 @@ else
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>Actions</th>
                 <th>Product Name</th>
                 <th>Category Name</th>
             </tr>
@@ -39,10 +38,6 @@ else
         @foreach (var products in Model)
         {
             <tr>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = products.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Delete", "delete", new { id = products.Id }, new { @class = "btn btn-danger" })
-                </td>
                 <td>@products.ProductName</td>
                 <td>@products.Category.CatName</td>
             </tr>
@@ -51,7 +46,7 @@ else
 }
 
 
-@Html.PagedListPager(Model, page => Url.Action("ProductList", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("ReadOnly", new { page }))
 
 @*<ul>
 

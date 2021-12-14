@@ -10,14 +10,14 @@
 
 <h1 style="text-align: center">Category List</h1>
 
-<p>
+@*<p>
     @Html.ActionLink("New Category", "AddCat", "Category", null, new { @class = "btn btn-primary" })
 </p>
 
 <p>
     @Html.ActionLink("Too See Product List", "ProductList", "Product", null, new { @class = "btn btn-primary" })
 
-</p>
+</p>*@
 
 
 
@@ -34,8 +34,8 @@ else
         <thead>
             <tr>
                 <th>Actions</th>
-                <th>CatID</th>
-                <th>CatName</th>
+                <th>Category ID</th>
+                <th>Category Name</th>
             </tr>
         </thead>
         @foreach (var category in Model)
@@ -51,10 +51,11 @@ else
 
                         @Html.ActionLink("Activate", "Active", new { id = category.Id }, new { @class = "btn btn-success" })
                     }
-                    @if(category.ActiveOrNot == true)
+                    else
                     {
                         @Html.ActionLink("Deactivate", "Deactive", new { id = category.Id }, new { @class = "btn btn-warning" })
                     }
+
                 </td>
                 <td>@category.Id</td>
                 <td>@category.CatName</td>

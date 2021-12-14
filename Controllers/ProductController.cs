@@ -8,11 +8,14 @@ using Task1.Models;
 using Task1.ViewModels;
 using PagedList;
 using PagedList.Mvc;
+using System.Data;
 
 namespace Task1.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
+        
 
         private readonly ApplicationDbContext _context;
         public ProductController()
@@ -59,6 +62,7 @@ namespace Task1.Controllers
 
                 productInDb.ProductName = product.ProductName;
                 productInDb.CategoryId = product.CategoryId;
+                productInDb.Username = product.Username;
             }
             _context.SaveChanges();
             return RedirectToAction("ProductList", "Product");
@@ -92,10 +96,22 @@ namespace Task1.Controllers
         // GET: Product
         public ActionResult ProductList(int? page, bool a = true)
         {
-
-            var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
-            return View(product.ToList().ToPagedList(page ?? 1, 10));
-
+            if (User.IsInRole("Admin"))
+            {
+                var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
+                return View("ProductList",product.ToList().ToPagedList(page ?? 1, 10));
+            }
+            else
+            {
+                var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
+                return View("ReadOnly",product.ToList().ToPagedList(page ?? 1, 10));
+            }
         }
+
+    //    public ActionResult Report()
+    //    //{
+    //    //    IEnumerable<Product> data = _context.Database.SqlQuery<Product>("spDisplayDetails", CommandType.StoredProcedure);
+    //    //    return View(data.ToList());
+    //    }
     }
 }

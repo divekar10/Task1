@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Task1.Models.Product>
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Report</h2>
+
+@foreach (var item in Model)
+            {
+<table>
+    <tr>
+        <td>@item.ProductName</td>
+        <td>@item.Category.CatName</td>
+        <td>@item.Username</td>
+    </tr>
+</table>
+            }
+{
+
+}
+
