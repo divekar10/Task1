@@ -26,7 +26,7 @@ namespace Task1.Controllers
         // GET: Category
         public ActionResult Index(int? page)
         {
-            if (User.IsInRole("Admin")) 
+            if (User.IsInRole(RoleName.Admin)) 
             { 
                 var category = _context.Categories.ToList();
                 return View("Index",category.ToList().ToPagedList(page ?? 1, 10));

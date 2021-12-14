@@ -96,7 +96,7 @@ namespace Task1.Controllers
         // GET: Product
         public ActionResult ProductList(int? page, bool a = true)
         {
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole(RoleName.Admin))
             {
                 var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
                 return View("ProductList",product.ToList().ToPagedList(page ?? 1, 10));
