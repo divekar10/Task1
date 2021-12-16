@@ -9,6 +9,7 @@ using Task1.ViewModels;
 using PagedList;
 using PagedList.Mvc;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Task1.Controllers
 {
@@ -29,9 +30,9 @@ namespace Task1.Controllers
         }
 
 
-        public ActionResult AddProduct()
+        public async Task<ActionResult> AddProduct()
         {
-            var ddl = _context.Categories.ToList();
+            var ddl = await _context.Categories.ToListAsync();
             var viewModel = new AddProductViewModel
             {
                 Categories = ddl
@@ -41,7 +42,7 @@ namespace Task1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(Product product)
+        public async Task<ActionResult> Save(Product product)
         {
             //if (!ModelState.IsValid)
             //{
@@ -54,56 +55,56 @@ namespace Task1.Controllers
             //}
             if (product.Id == 0)
             {
-                _context.Products.Add(product);
+               _context.Products.Add(product);
             }
             else
             {
-                var productInDb = _context.Products.Single(c => c.Id == product.Id);
+                var productInDb = await _context.Products.SingleAsync(c => c.Id == product.Id);
 
                 productInDb.ProductName = product.ProductName;
                 productInDb.CategoryId = product.CategoryId;
                 productInDb.Username = product.Username;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("ProductList", "Product");
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var product = _context.Products.SingleOrDefault(c => c.Id == id);
+            var product = await _context.Products.SingleOrDefaultAsync(c => c.Id == id);
             if (product == null)
                 return HttpNotFound();
 
             var viewModel = new AddProductViewModel
             {
                 Product = product,
-                Categories = _context.Categories.ToList()
+                Categories = await _context.Categories.ToListAsync()
             };
 
             return View("AddProduct", viewModel);
         }
 
 
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var pro = _context.Products.Find(id);
+            var pro = await _context.Products.FindAsync(id);
             _context.Products.Remove(pro);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("ProductList", "Product");
         }
 
         // GET: Product
-        public ActionResult ProductList(int? page, bool a = true)
+        public async Task<ActionResult> ProductList(int? page, bool a = true)
         {
             if (User.IsInRole(RoleName.Admin))
             {
-                var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
+                var product = await _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToListAsync();
                 return View("ProductList",product.ToList().ToPagedList(page ?? 1, 10));
             }
             else
             {
-                var product = _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToList();
+                var product = await _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToListAsync();
                 return View("ReadOnly",product.ToList().ToPagedList(page ?? 1, 10));
             }
         }

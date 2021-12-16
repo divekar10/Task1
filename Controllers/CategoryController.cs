@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Task1.Models;
 using PagedList;
 using PagedList.Mvc;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Task1.Controllers
 {
@@ -24,15 +26,15 @@ namespace Task1.Controllers
             _context.Dispose();
         }
         // GET: Category
-        public ActionResult Index(int? page)
+        public async Task<ActionResult> Index(int? page)
         {
             if (User.IsInRole(RoleName.Admin)) 
             { 
-                var category = _context.Categories.ToList();
+                var category = await _context.Categories.ToListAsync();
                 return View("Index",category.ToList().ToPagedList(page ?? 1, 10));
             }else
             {
-                var category = _context.Categories.ToList();
+                var category = await _context.Categories.ToListAsync();
                 return View("ReadOnly",category.ToList().ToPagedList(page ?? 1, 10));
             }
         }
@@ -43,55 +45,55 @@ namespace Task1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Category category)
+        public async Task<ActionResult> Save(Category category)
         {
             if (category.Id == 0)
             {
-                _context.Categories.Add(category);
+                  _context.Categories.Add(category);
             }
             else
             {
-                var catInDb = _context.Categories.Single(c => c.Id == category.Id);
+                var catInDb = await _context.Categories.SingleAsync(c => c.Id == category.Id);
 
                 catInDb.CatName = category.CatName;
                
             }
-            _context.SaveChanges();
+             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Category");
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var cat = _context.Categories.SingleOrDefault(c => c.Id == id);
+            var cat = await _context.Categories.SingleOrDefaultAsync(c => c.Id == id);
             if (cat == null)
                 return HttpNotFound();
 
             return View("AddCat");
         }
 
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var cat = _context.Categories.Find(id);
+            var cat = await _context.Categories.FindAsync(id);
             _context.Categories.Remove(cat);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Category");
         }
 
        
-        public ActionResult Active(Category category)
+        public async Task<ActionResult> Active(Category category)
         {
-            var act = _context.Categories.Single(c => c.Id == category.Id);
+            var act = await _context.Categories.SingleAsync(c => c.Id == category.Id);
             act.ActiveOrNot = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("ProductList", "Product");
         }
 
-        public ActionResult Deactive(Category category)
+        public async Task<ActionResult> Deactive(Category category)
         {
-            var deact = _context.Categories.Single(c => c.Id == category.Id);
+            var deact = await _context.Categories.SingleAsync(c => c.Id == category.Id);
             deact.ActiveOrNot = false;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             //Category deact = _context.Categories.Create();
             //deact.Id = id;
             //_context.Categories.Attach(deact);
