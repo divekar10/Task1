@@ -46,12 +46,12 @@ namespace Task1.Controllers
         {
             //if (!ModelState.IsValid)
             //{
-            //    var viewModel = new AddProductViewModel
+            //    var viewmodel = new addproductviewmodel
             //    {
-            //        Product = product,
-            //        Categories = _context.Categories.ToList()
+            //        product = product,
+            //        categories = _context.categories.tolist()
             //    };
-            //    return View("AddProduct", viewModel);
+            //    return view("addproduct", viewmodel);
             //}
             if (product.Id == 0)
             {
@@ -105,7 +105,7 @@ namespace Task1.Controllers
             else
             {
                 var product = await _context.Products.Include(c => c.Category).Where(c => c.Category.ActiveOrNot.Equals(a)).ToListAsync();
-                return View("ReadOnly",product.ToList().ToPagedList(page ?? 1, 10));
+                return View("list",product.ToList().ToPagedList(page ?? 1, 10));
             }
         }
 

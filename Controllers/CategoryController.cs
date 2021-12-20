@@ -35,7 +35,7 @@ namespace Task1.Controllers
             }else
             {
                 var category = await _context.Categories.ToListAsync();
-                return View("ReadOnly",category.ToList().ToPagedList(page ?? 1, 10));
+                return View("list",category.ToList().ToPagedList(page ?? 1, 10));
             }
         }
 
@@ -47,6 +47,7 @@ namespace Task1.Controllers
         [HttpPost]
         public async Task<ActionResult> Save(Category category)
         {
+
             if (category.Id == 0)
             {
                   _context.Categories.Add(category);

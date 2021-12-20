@@ -11,7 +11,7 @@ namespace Task1.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Enter Product Name.")]
         [StringLength(255)]
         [DisplayName("Product Name")]
         public String ProductName { get; set; }

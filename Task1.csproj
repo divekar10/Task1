@@ -229,6 +229,10 @@
     <Compile Include="Migrations\202112140524405_SeedUsers.Designer.cs">
       <DependentUpon>202112140524405_SeedUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112161016239_AdditionalValidation.cs" />
+    <Compile Include="Migrations\202112161016239_AdditionalValidation.Designer.cs">
+      <DependentUpon>202112161016239_AdditionalValidation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -303,8 +307,8 @@
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Category\AddCat.cshtml" />
     <Content Include="Views\Product\Report.cshtml" />
-    <Content Include="Views\Product\ReadOnly.cshtml" />
-    <Content Include="Views\Category\ReadOnly.cshtml" />
+    <Content Include="Views\Product\list.cshtml" />
+    <Content Include="Views\Category\list.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -349,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112140524405_SeedUsers.resx">
       <DependentUpon>202112140524405_SeedUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112161016239_AdditionalValidation.resx">
+      <DependentUpon>202112161016239_AdditionalValidation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

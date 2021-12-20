@@ -12,6 +12,7 @@ namespace Task1.Models
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage ="Enter category name.")]
         [DisplayName("Category Name")]
         public String CatName { get; set; }
 

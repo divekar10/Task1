@@ -8,8 +8,8 @@
 <h2 style="text-align: center">Add / Update Product</h2>
 
 @*<p>
-    @Html.ActionLink("BAck To ProductList", "ProductList", "Product", null, new { @class = "btn btn-primary" })
-</p>*@
+        @Html.ActionLink("BAck To ProductList", "ProductList", "Product", null, new { @class = "btn btn-primary" })
+    </p>*@
 
 
 
@@ -25,10 +25,18 @@
         @Html.DropDownListFor(m => m.Product.CategoryId, new SelectList(Model.Categories, "Id", "CatName"), "Select Category", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Product.CategoryId)
     </div>
-        @Html.LabelFor(m => m.Product.Username)
-        @Html.TextBoxFor(m => m.Product.Username, new { Value = User.Identity.GetUserName(), @class = "form-control", @disabled = "true" })
+    @Html.LabelFor(m => m.Product.Username)
+    @Html.TextBoxFor(m => m.Product.Username, new { Value = User.Identity.GetUserName(), @class = "form-control" })
     <br />
     @Html.HiddenFor(m => m.Product.Id)
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Save</button>
+
+    <p>@Html.ValidationSummary(true)</p>
+}
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
 }
