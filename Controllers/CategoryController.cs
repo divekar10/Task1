@@ -95,11 +95,6 @@ namespace Task1.Controllers
             var deact = await _context.Categories.SingleAsync(c => c.Id == category.Id);
             deact.ActiveOrNot = false;
             await _context.SaveChangesAsync();
-            //Category deact = _context.Categories.Create();
-            //deact.Id = id;
-            //_context.Categories.Attach(deact);
-            //deact.ActiveOrNot = deactivate;
-            //_context.SaveChanges();
 
             return RedirectToAction("ProductList", "Product");
 

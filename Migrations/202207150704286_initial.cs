@@ -3,7 +3,7 @@ namespace Task1.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -12,7 +12,8 @@ namespace Task1.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CatName = c.String(),
+                        CatName = c.String(nullable: false),
+                        ActiveOrNot = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -21,9 +22,13 @@ namespace Task1.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        ProductName = c.String(),
+                        ProductName = c.String(nullable: false, maxLength: 255),
+                        CategoryId = c.Int(nullable: false),
+                        Username = c.String(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
+                .Index(t => t.CategoryId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -101,12 +106,14 @@ namespace Task1.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Products", new[] { "CategoryId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
